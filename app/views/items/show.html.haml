@@ -1,3 +1,201 @@
+.header
+  //TODO headerを読み込む
+  -# = render "posts/header"
+  
 .main
   .showMain
+    .content
+      .topContent
+        .itemBox
+          .itemBox__name 
+            %h2
+              test_product1
+              -# @item.name
+          .itemBox__imageGroup
+            %ul.itemBox__topImage
+              %li
+                -# - @item.images.url[0]
+                = image_tag "pict/pict-reason-02.jpg"
+                .itemBox__caroucel
+                  %ul  
+                  -# - @item.images.each |image| do
+                    -# %li 
+                    -#   = image_tag "${image.url}", size: "75x75"
+                    %li
+                      = image_tag "pict/pict-reason-01.jpg", size: "75x75"
+                    %li
+                      = image_tag "pict/pict-reason-01.jpg", size: "75x75"
+                    %li
+                      = image_tag "pict/pict-reason-01.jpg", size: "75x75"
+          .itemBox__priceTag
+            -# @item.price
+            %span¥3,000
+            .itemBox__priceTag--detail
+              %span (税込)
+              %span 送料込み 
+          //TODO 自分以外のユーザー(ゲストも含む)のとき購入確認画面であるpurchaseコントローラー(confirmationアクション)を呼び出す。ログインしているか判定し、クレジットカード決済登録ページか購入確認画面に分岐させる。
+          -# - if current_user.id != @item.user_id
+          .itemBox__buyBtn
+            = link_to items_url do 
+              購入
+          -# - elsif 
+          -#   .itemBox__buyBtn--disabled 
+          //TODO 出品ユーザーと閲覧しているユーザーが同一のときのみ編集ボタンが押せる(Viewだけではなくコントローラーでも対処する)
+          -# - elsif current_user.id == @item.user_id
+          -#  .itemBox__editBtn
+          -#    or
+          -#  .itemBox__editBtn
+          -#    = link_to edtit_item_path(@item.id) do
+          -#      編集
+
+          .itemBox__description
+            テストテスト
+          .itemBox__infoGroup
+            %table
+              %tbody
+                %tr
+                  %th
+                    出品者
+                  %td
+                    -# = link_to user_path(@seller.id), class: "seller" do
+                    -# @item.seller.nickname
+                    hoge
+                %tr
+                  %th
+                    カテゴリー
+                  %td
+                    -# = link_to items_url(@item.category),class: "category" do
+                    -#  @item.category
+                    -# %br
+                    -# = linik_to items_url(@item.category), class: "category" do
+                    -#   @item.category
+                    -# %br
+                    -# = link_to items_url(@item.category), class: "category" do
+                    -#   @item.category
+                    ベビー・キッズ
+                    %br
+                    ベビー服
+                    %br
+                    アウター
+                %tr
+                  %th
+                    ブランド
+                  %td
+                    -# @item.brand
+                %tr
+                  %th
+                    商品の状態
+                  %td
+                    未使用に近い
+                    -# @item.item_condition
+                %tr
+                  %th
+                    送料込み(配送料の負担)
+                  %td
+                    出品者
+                    -# @item.delivery_cost
+                %tr
+                  %th
+                    発送元地域
+                  %td
+                    東京都
+                    -# @item.seller_reigon
+                %tr
+                  %th
+                    発送日の目安
+                  %td
+                    1〜2日以内
+                    -# @item.preparation_for_shipment
+          .optionalArea
+            %ul
+              %li.optionalBtn__favorite
+                = icon("fa", "star")
+                お気に入り
+            %ul
+              %li.optionalBtn__report
+                = link_to items_path do
+                  = icon("fa", "flag")
+                  不適切な商品の通報
+        .commentBox
+          %form
+            %textarea{name: "comment[body]", required: "required"}
+            %p.notice
+              相手のことを考え丁寧なコメントを心がけましょう。
+              %br
+              不快な言葉遣いなどは利用制限や退会処分となることがあります。
+              %br
+            %button{value: "送信", name: "button", type: "submit", class: "commentBtn"}
+              = icon("fa", "comment") 
+              コメントする
+      %ul.links
+        %li.links__nextItem
+          = link_to items_url do
+            = icon("fa", "angle-left")
+            %span 前の商品
+        %li.links__previousItem
+          = link_to items_url do
+            %span 後ろの商品
+            = icon("fa", "angle-right")
+      .relatedItems
+        = link_to items_url do
+          服をもっとみる
+          /*TODO 出品商品と同一カテゴリーの商品一覧へ飛ぶ*/
+        .relatedItems__lists
+          .relatedItems__item
+            = link_to items_url do 
+              %figure.relatedItems__itemImage
+                = image_tag "pict/pict-reason-01.jpg"
+              .relatedItems__itemInfo
+                %h3.relatedItems__itemName
+                  example1
+                  //@realated_items.name
+                .relatedItems__infoDetails
+                  %ul
+                    %li
+                      1000円
+                      //@related_items.price
+                    %li
+                      =icon("fa", "star",class:"likeIcon")
+                      0
+                  %p 
+                    (税込み)
+            /*TODO 関連商品のリンクに飛ぶ*/
+          .relatedItems__item
+            = link_to items_url do 
+              %figure.relatedItems__itemImage
+                = image_tag "pict/pict-reason-01.jpg"
+              .relatedItems__itemInfo
+                %h3.relatedItems__itemName
+                  example2
+                  //@related_items.name
+                .relatedItems__infoDetails
+                  %ul
+                    %li
+                      1000円
+                    %li
+                      =icon("fa", "star",class:"likeIcon")
+                      1
+                  %p 
+                    (税込み)
+%aside.appBanner
+  .bannerDecoration
+    %h2
+      誰でもかんたん、人生を変えるフリマアプリ
+    %p
+      今すぐ無料ダウンロード 
+    .bannerDecoration__icons
+      = link_to items_url do
+        = image_tag "icon/moble-app-ios.svg", class:"bannerDeoration__icon--ios" 
+        = image_tag "icon/moble-app-android.svg", class:"bannerDecoration__icon--adnroid"
+.footer
+  //TODO footerを読み込む
+  -# = render "layouts/footer"
+
+-# TODO 新規出品を呼び出すアクションへ(new_item_path)
+= link_to new_item_path do
+  .sellBtn
+    %span.sellBtn__text
+      出品
+    = image_tag "icon/icon_camera.png", class:"sellBtn__icon"
+
     
