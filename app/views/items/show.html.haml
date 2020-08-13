@@ -1,43 +1,156 @@
-.Main
-  .Main__header
-    = image_tag "/logo.png", class: "logo"
-  .Main__contents
+= render "items/header"
+.main
+  .showMain
     .content
-      .content__header
-        %h2
-          購入内容の確認
-      .content__item.space
-        .item__image
-          .item__image__photo
-            = image_tag "", size: "100x100", alt: "NO image"
-          .item__image__info
-            %p.name aaaaaaaaaaaaaaaaaaa
-            %p.price
-              %span 送料込み(税込)
-              %span.font ¥900000000
-      .content__fee.space
-        %span.font 支払い金額
-        %span.font ¥900000000
-      .content__credit.space
-        %h3 支払い方法
-        = link_to "#", class: "user-info" do
-          =icon('far', 'plus-square')
-          %span カードを登録してください
-      .content__address.space
-        %h3 配送先
-        = link_to "#", class: "user-info" do
-          =icon('far', 'plus-square')
-          %span 住所を登録してください
-      .content__button.space
-        %button.confirm-btn 購入する
-  .Main__info
-    %ul.footer-info
-      %li
-        = link_to "プライバシーポリシー", "#", class: "info"
-      %li
-        = link_to "FURIMA利用規約", "#", class: "info"
-      %li
-        = link_to "特定商取引に関する表記", "#", class: "info"
-    .footer-logo
-      = image_tag "/logo-white.png", class: "logo"
-      %p ©︎FURIMA
+      .topContent
+        .itemBox
+          .itemBox__name 
+            %h2
+              = @item.name
+          .itemBox__imageGroup
+            %ul.itemBox__topImage
+              %li
+                = image_tag "#{@item.images[0].image_url}"
+                .itemBox__caroucel
+                  %ul
+                  - @item.images.each do |image|
+                    %li 
+                      = image_tag "#{image.image_url}", size: "75x75"
+                    
+          .itemBox__priceTag
+            %span 
+              ￥
+              = @item.price.to_s(:delimited)
+            .itemBox__priceTag--detail
+              %span (税込)
+              %span 送料込み 
+          // 自分以外のユーザー(ゲストも含む)のとき購入確認画面であるpurchaseコントローラー(confirmationアクション)を呼び出す。ログインしているか判定し、クレジットカード決済登録ページか購入確認画面に分岐させる。
+          - if @item.status_id == 1
+            - if current_user.nil? || current_user.id != @item.user_id
+              .itemBox__buyBtn
+                = link_to confirmation_item_purchases_path(@item.id) do
+                  購入
+            - else current_user.id == @item.user_id
+              .itemBox__editBtn
+                = link_to item_path, method: "DELETE" do
+                  編集 削除
+          - else @item.status_id == 2
+            .itemBox__buyBtn--disabled 
+              = link_to "/" do
+                売り切れ
+          .itemBox__description
+            = @item.description
+          .itemBox__infoGroup
+            %table
+              %tbody
+                %tr
+                  %th
+                    出品者
+                  %td
+                    = link_to items_path, class: "seller" do
+                      = @item.seller.nickname
+                %tr
+                  %th
+                    カテゴリー
+                  %td
+                    = @item.category.parent.parent.name
+                    %br
+                    = @item.category.parent.name
+                    %br
+                    = @item.category.name
+                %tr
+                  %th
+                    ブランド
+                  %td
+                    = @item.brand.brand_name
+                %tr
+                  %th
+                    商品の状態
+                  %td
+                    = @item.item_condition.condition
+                %tr
+                  %th
+                    送料込み(配送料の負担)
+                  %td
+                    = @item.delivery_cost.deliveryCost
+                %tr
+                  %th
+                    発送元地域
+                  %td
+                    = @item.seller_region.prefercture
+                %tr
+                  %th
+                    発送日の目安
+                  %td
+                    = @item.preparation_for_shipment.day
+          .optionalArea
+            %ul
+              %li.optionalBtn__favorite
+                = icon("fa", "star")
+                お気に入り
+            %ul
+              %li.optionalBtn__report
+                = link_to "#" do
+                  = icon("fa", "flag")
+                  不適切な商品の通報
+        .commentBox
+          %form
+            %textarea{name: "comment[body]", required: "required"}
+            %p.notice
+              相手のことを考え丁寧なコメントを心がけましょう。
+              %br
+              不快な言葉遣いなどは利用制限や退会処分となることがあります。
+              %br
+            %button{value: "送信", name: "button", type: "submit", class: "commentBtn"}
+              = icon("fa", "comment") 
+              コメントする
+      %ul.links
+        %li.links__nextItem
+          = link_to "#" do
+            = icon("fa", "angle-left")
+            %span 前の商品
+        %li.links__previousItem
+          = link_to "#" do
+            %span 後ろの商品
+            = icon("fa", "angle-right")
+      .relatedItems
+        = @item.category.name
+        をもっとみる
+        .relatedItems__lists
+          .relatedItems__item
+            - @related_items.each do |item|
+              = link_to "#" do 
+                %figure.relatedItems__itemImage
+                  = image_tag "#{@item.images[0].image_url}"
+                .relatedItems__itemInfo
+                  %h3.relatedItems__itemName
+                    = item.name
+                  .relatedItems__infoDetails
+                    %ul
+                      %li
+                        = item.price
+                      %li
+                        =icon("fa", "star",class:"likeIcon")
+                        0
+                    %p 
+                    (税込み)
+%aside.appBanner
+  .bannerDecoration
+    %h2
+      誰でもかんたん、人生を変えるフリマアプリ
+    %p
+      今すぐ無料ダウンロード 
+    .bannerDecoration__icons
+      = link_to "#" do
+        = image_tag "icon/icon-mobile-app-ios.svg", class:"bannerDeoration__icon--ios" 
+        = image_tag "icon/icon-mobile-app-android.svg", class:"bannerDecoration__icon--adnroid"
+
+= render "layouts/footer"
+
+= link_to new_item_path do
+  .sellBtn
+    %span.sellBtn__text
+      出品
+    = image_tag "icon/icon_camera.png", class:"sellBtn__icon"
+
+    

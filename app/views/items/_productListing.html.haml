@@ -22,6 +22,12 @@
                 = k.file_field :image_url, class: "Base__body__area__picture__iconArea__pictureArea"
                 .Base__body__area__picture__iconArea__text
                   ドラッグアンドドロップ<br>またはクリックしてファイルをアップロード
+                - if @item.persisted?
+                  = k.check_box :_destroy, data:{index: k.index }, class: "hidden-destroy"
+          -# #forEdit
+          -#   - if @item.persisted?
+          -#     #iconArea-js{"data-index" => "#{@item.images.count}"}
+          -#       = file_field_tag :image_url, name: "item[images_attributes][#{@item.k.count}][image_url]", class: "Base__body__area__picture__iconArea__pictureArea"
 
       .Base__body__area__item
         .Base__body__area__item__nameArea
@@ -43,20 +49,26 @@
 
       .Base__body__area__itemDetail
         商品の詳細
-        .Base__body__area__itemDetail__categoryArea
-          .Base__body__area__itemDetail__categoryArea__step
-            .Base__body__area__itemDetail__categoryArea__step__category
-              カテゴリー
-            .Base__body__area__itemDetail__categoryArea__step__mark
-              必須
-          = i.collection_select( :category_id, Category.all, :id, :category, {prompt: "選択してください"})
+
+        .listing-form-box
+          .listing-product-detail__category
+            .listing-product-detail__title
+              .listing-default__label
+                カテゴリー
+              .listing-default--require
+                必須
+            .listing-select-wrapper
+              .listing-select-wrapper__box
+                = i.select :category_id, @category_parent_array, {}, {class: 'listing-select-wrapper__box--select', id: 'parent_category'}
+
         .Base__body__area__itemDetail__brandArea
           .Base__body__area__itemDetail__brandArea__step
             .Base__body__area__itemDetail__brandArea__step__brand
               ブランド
             .Base__body__area__itemDetail__brandArea__step__mark
               任意
-          = i.text_field :brand_name, placeholder: "例）シャネル", class: "Base__body__area__itemDetail__brandArea__inputArea"
+          = i.fields_for :brand do |l|
+            = l.text_field :brand_name, placeholder: "例）シャネル", class: "Base__body__area__itemDetail__brandArea__inputArea"
         .Base__body__area__itemDetail__conditionArea
           .Base__body__area__itemDetail__conditionArea__step
             .Base__body__area__itemDetail__conditionArea__step__condition
@@ -122,7 +134,7 @@
       .Base__body__area__buttonArea
         = i.submit "出品する", class:"Base__body__area__buttonArea__exhibit"
         = i.submit "下書きに保存", class:"Base__body__area__buttonArea__save"
-        = link_to "もどる","#", class: "Base__body__area__buttonArea__back"
+        = link_to "もどる",root_path, class: "Base__body__area__buttonArea__back"
 
       .Base__body__area__attention
         禁止されている行為および出品物を必ずご確認ください。偽ブランド品や盗品物などの販売は犯罪であり、法律により処罰される可能性があります。また、出品をもちまして加盟店規則に同意したことになります。

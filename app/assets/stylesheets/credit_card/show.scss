@@ -1,0 +1,50 @@
+.main{
+  background: #f8f8f8;
+}
+.mainContent{
+  width: 700px;
+  margin: 0 auto;
+  background: #fff;
+}
+.creditCard__content{
+  padding: 40px;
+  margin: 0 auto;
+  width: 700px;
+  background: #fff;
+}
+.creditCard__cardNumbers{
+  margin:20px;
+  height: 100px auto;
+  
+  .cardNumber{
+  margin-left: 15px;
+  }
+}
+.creditCard__expDate{
+  margin: 20px;
+  height: 100px auto;
+  .expDate{
+    margin: 25px 20px
+  }
+}
+.creditCard__deleteButton{
+  margin: 20px;
+  height: 100px auto;
+}
+.deleteButton{
+  button{
+    line-height: 20px;
+    background: #ea352d;
+    border: 1px solid #ea352d;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 100px;
+  }
+  button:hover{
+    opacity: 0.7;
+  }
+}

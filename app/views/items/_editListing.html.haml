@@ -1,0 +1,149 @@
+.Base__body
+  .Base__body__area
+    = form_with(model: @item, local: true) do |i|
+      .Base__body__area__picture
+        .Base__body__area__picture__text
+          .Base__body__area__picture__text__step
+            .Base__body__area__picture__text__step__title
+              出品画像
+            .Base__body__area__picture__text__step__mark
+              必須
+          .Base__body__area__picture__text__explain
+            最大10枚までアップロードできます
+        #image-box
+          #previews
+            - if @item.persisted?
+              - @item.images.each_with_index do |image, x|
+                .Preview__wrapper{"data-index" => "#{x}"}
+                  -if image.persisted?
+                    = image_tag image.image_url.url, data: { index: x }, width: "100", height: "80", id: "preview_image"
+                    .Preview__wrapper__btn
+                      .Preview__wrapper__btn__delete
+                        削除
+                      .Preview__wrapper__btn__edit
+                        編集
+
+          = i.fields_for :images do |k|
+            #iconArea-js{"data-index" => "#{k.index}"}
+              = k.label :image_url, class: "Base__body__area__picture__iconArea" do
+                = icon('fas','camera')
+                = k.file_field :image_url, class: "Base__body__area__picture__iconArea__pictureArea"
+                .Base__body__area__picture__iconArea__text
+                - if k.object.persisted?
+                  = k.check_box :_destroy, data:{index: k.index }, class: "hidden-destroy"
+      
+      .Base__body__area__item
+        .Base__body__area__item__nameArea
+          .Base__body__area__item__nameArea__step
+            .Base__body__area__item__nameArea__step__name
+              商品名
+              .Base__body__area__item__nameArea__step__name__mark
+                必須
+            = i.text_field :name, placeholder: '40文字まで', class: "Base__body__area__item__nameArea__step__inputArea"
+        .Base__body__area__item__informationArea
+          .Base__body__area__item__informationArea__step
+            .Base__body__area__item__informationArea__step__information
+              商品の説明
+            .Base__body__area__item__informationArea__step__mark
+              必須
+          = i.text_area :description, class: "Base__body__area__item__informationArea__space", placeholder: "商品の説明（必須　1,000文字以内）\n（色、素材、重さ、定価、注意点など）\n\n 例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。"
+          .Base__body__area__item__informationArea__number
+            0/1000
+
+      .Base__body__area__itemDetail
+        商品の詳細
+        .Base__body__area__itemDetail__categoryArea
+          .Base__body__area__itemDetail__categoryArea__step
+            .Base__body__area__itemDetail__categoryArea__step__category
+              カテゴリー
+            .Base__body__area__itemDetail__categoryArea__step__mark
+              必須
+          = i.collection_select( :category_id, Category.all, :id, :category, {prompt: "選択してください"})
+        .Base__body__area__itemDetail__brandArea
+          .Base__body__area__itemDetail__brandArea__step
+            .Base__body__area__itemDetail__brandArea__step__brand
+              ブランド
+            .Base__body__area__itemDetail__brandArea__step__mark
+              任意
+          = i.fields_for :brand do |l|
+            = l.text_field :brand_name, placeholder: "例）シャネル", class: "Base__body__area__itemDetail__brandArea__inputArea"
+        .Base__body__area__itemDetail__conditionArea
+          .Base__body__area__itemDetail__conditionArea__step
+            .Base__body__area__itemDetail__conditionArea__step__condition
+              商品の状態
+            .Base__body__area__itemDetail__conditionArea__step__mark
+              必須
+          = i.collection_select( :item_condition_id, ItemCondition.all, :id, :condition, {prompt: "選択してください"})
+          
+      
+      .Base__body__area__delivery
+        配送について
+        = link_to icon("fas", "question-circle"), "#"
+        .Base__body__area__delivery__feeArea
+          .Base__body__area__delivery__feeArea__step
+            .Base__body__area__delivery__feeArea__step__fee
+              配送料の負担
+            .Base__body__area__delivery__feeArea__step__mark
+              必須
+          .Base__body__area__delivery__feeArea__selectArea
+            = i.collection_select( :delivery_cost_id, DeliveryCost.all, :id, :deliveryCost, {prompt: "選択してください"})
+        .Base__body__area__delivery__regionArea
+          .Base__body__area__delivery__regionArea__step
+            .Base__body__area__delivery__regionArea__step__region
+              配送元の地域
+            .Base__body__area__delivery__regionArea__step__mark
+              必須
+          .Base__body__area__delivery__regionArea__selectArea
+            = i.collection_select( :seller_region_id, SellerRegion.all, :id, :prefercture, {prompt: "選択してください"})
+        .Base__body__area__delivery__daysArea
+          .Base__body__area__delivery__daysArea__step
+            .Base__body__area__delivery__daysArea__step__days
+              発送までの日数
+            .Base__body__area__delivery__daysArea__step__mark
+              必須
+          .Base__body__area__delivery__daysArea__selectArea
+            = i.collection_select( :preparation_for_shipment_id, PreparationForShipment.all, :id, :day, {prompt: "選択してください"})
+      
+      .Base__body__area__price
+        価格（¥300〜9,999,999）
+        = link_to icon("fas", "question-circle"), "#"
+        .Base__body__area__price__sellingPriceArea
+          .Base__body__area__price__sellingPriceArea__letterStep
+            .Base__body__area__price__sellingPriceArea__letterStep__price
+              販売価格
+            .Base__body__area__price__sellingPriceArea__letterStep__mark
+              必須
+          .Base__body__area__price__sellingPriceArea__inputStep
+            .Base__body__area__price__sellingPriceArea__inputStep__unit
+              ¥
+            .Base__body__area__price__sellingPriceArea__inputStep__selectArea
+              = i.number_field :price, placeholder: 0, in: 300.0..9999999.0, step: 1.0, id: "price"
+        .Base__body__area__price__chargeArea
+          .Base__body__area__price__chargeArea__charge
+            販売手数料（10%）
+          .Base__body__area__price__chargeArea__calculate
+            ー
+        .Base__body__area__price__profitArea
+          .Base__body__area__price__profitArea__profit
+            販売利益
+          .Base__body__area__price__profitArea__calculate
+            ー
+
+      .Base__body__area__buttonArea
+        = i.submit "更新する", class:"Base__body__area__buttonArea__update"
+        = i.submit "下書きに保存", class:"Base__body__area__buttonArea__save"
+        = link_to "もどる",root_path, class: "Base__body__area__buttonArea__back"
+
+      .Base__body__area__attention
+        禁止されている行為および出品物を必ずご確認ください。偽ブランド品や盗品物などの販売は犯罪であり、法律により処罰される可能性があります。また、出品をもちまして加盟店規則に同意したことになります。
+      
+      .Base__body__area__foot
+        .Base__body__area__foot__agreementArea
+          = link_to "プライバシーポリシー","#", class: "Base__body__area__foot__agreementArea__policy"
+          = link_to "フリマ利用規約","#", class: "Base__body__area__foot__agreementArea__agreement"
+          = link_to "特定商取引に関する表記","#", class: "Base__body__area__foot__agreementArea__write"
+        .Base__body__area__foot__icon
+          = link_to (image_tag "logo-white.png", size: "170x49"), "#"
+        .Base__body__area__foot__applicationName
+          ©️furima, Inc.
+          

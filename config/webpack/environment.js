@@ -6,4 +6,5 @@ $: 'jquery/src/jquery',
 jQuery: 'jquery/src/jquery'
 })
 )
+
 module.exports = environment

@@ -52,80 +52,22 @@
   .PickupCategory__title
     新規投稿商品
   .PickupCategory__items
-
     .PickupCategory__items__item-box
-      = link_to "#", class: "item-link" do
-        .PickupCategory__items__item-box__image
-          = image_tag "icon/icon-04.png", class: "items-image"
-        .PickupCategory__items__item-box__name
-          アイテム１
-        %ul.PickupCategory__items__item-box__prudcts
-          %li.PickupCategory__items__item-box__prudcts__price
-            10000円
-          %li.PickupCategory__items__item-box__prudcts__iine
-            2
-        %p.PickupCategory__items__item-box__zei
-          (税込)
+      - @new_items.each do |item|
+        = link_to item_path(item.id), class: "item-link" do
+          .PickupCategory__items__item-box__image
+            = image_tag "#{item.images[0].image_url}"
+          .PickupCategory__items__item-box__name
+            = item.name
+          %ul.PickupCategory__items__item-box__prudcts
+            %li.PickupCategory__items__item-box__prudcts__price
+              = item.price 
+              円
+            %li.PickupCategory__items__item-box__prudcts__iine
+              2
+          %p.PickupCategory__items__item-box__zei
+            (税込)
 
-
-    .PickupCategory__items__item-box
-      = link_to "#", class: "item-link" do
-        .PickupCategory__items__item-box__image
-          = image_tag "icon/icon-04.png", class: "items-image"
-        .PickupCategory__items__item-box__name
-          アイテム
-        %ul.PickupCategory__items__item-box__prudcts
-          %li.PickupCategory__items__item-box__prudcts__price
-            10000円
-          %li.PickupCategory__items__item-box__prudcts__iine
-            2
-        %p.PickupCategory__items__item-box__zei
-          (税込)
-
-
-    .PickupCategory__items__item-box
-      = link_to "#", class: "item-link" do
-        .PickupCategory__items__item-box__image
-          = image_tag "icon/icon-04.png", class: "items-image"
-        .PickupCategory__items__item-box__name
-          アイテム
-        %ul.PickupCategory__items__item-box__prudcts
-          %li.PickupCategory__items__item-box__prudcts__price
-            10000円
-          %li.PickupCategory__items__item-box__prudcts__iine
-            2
-        %p.PickupCategory__items__item-box__zei
-          (税込)
-
-
-    .PickupCategory__items__item-box
-      = link_to "#", class: "item-link" do
-        .PickupCategory__items__item-box__image
-          = image_tag "icon/icon-04.png", class: "items-image"
-        .PickupCategory__items__item-box__name
-          アイテム
-        %ul.PickupCategory__items__item-box__prudcts
-          %li.PickupCategory__items__item-box__prudcts__price
-            10000円
-          %li.PickupCategory__items__item-box__prudcts__iine
-            2
-        %p.PickupCategory__items__item-box__zei
-          (税込)
-
-
-    .PickupCategory__items__item-box
-      = link_to "#", class: "item-link" do
-        .PickupCategory__items__item-box__image
-          = image_tag "icon/icon-04.png", class: "items-image"
-        .PickupCategory__items__item-box__name
-          アイテム
-        %ul.PickupCategory__items__item-box__prudcts
-          %li.PickupCategory__items__item-box__prudcts__price
-            10000円
-          %li.PickupCategory__items__item-box__prudcts__iine
-            2
-        %p.PickupCategory__items__item-box__zei
-          (税込)
 
 .PickupCategory
   .PickupCategory__head
@@ -218,10 +160,10 @@
       = image_tag "Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg", class: "app_apple"
       = image_tag "google-play-badge.png", class: "app_google"
 .funcBtn
-  = link_to "#", class: "func-link" do
+  = link_to new_item_path, class: "func-link" do
     .funcBtn__text
       出品する
     .funcBtn__icon
-      = icon('fas', 'camera',　class:"icon")
+      = icon('fas', 'camera', class:"icon")
 
 = render '/layouts/footer'

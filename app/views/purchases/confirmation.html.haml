@@ -1,0 +1,60 @@
+.Main
+  .Main__header
+    = link_to items_path do
+      = image_tag "logo/logo.png", class: "logo"
+  .Main__contents
+    .content
+      .content__header
+        %h2
+          購入内容の確認
+      .content__item.space
+        .item__image
+          .item__image__photo
+            = image_tag "#{@item.images[0].image_url}", size: "100x100", alt: "NO image"
+          .item__image__info
+            %p.name 
+              = @item.name
+            %p.price
+              %span 送料込み(税込)
+              %span.font 
+                = @item.price
+      .content__fee.space
+        %span.font 
+          支払い金額
+        %span.font 
+          = @item.price
+      .content__credit.space
+        %h3 支払い方法
+        - if @default_card_information.blank?
+          %br /
+        - else
+        
+          = "**** **** **** " + @default_card_information.last4
+          - exp_month = @default_card_information.exp_month.to_s
+          - exp_year = @default_card_information.exp_year.to_s.slice(2,3)
+          = exp_month + " / " + exp_year
+        %br
+      .content__address.space
+        %h3 配送先
+        = link_to "#", class: "user-info" do
+          =icon('far', 'plus-square')
+          %span 住所を登録してください
+      .content__button.space
+        .content__button__submit
+          = form_tag(action: :pay, method: :post) do
+            %button 購入する
+        .content__button__return
+          = form_tag(@item, method: :get) do
+            %button 商品へ戻る
+  .Main__info
+    %ul.footer-info
+      %li
+        = link_to "プライバシーポリシー", "#", class: "info"
+      %li
+        = link_to "FURIMA利用規約", "#", class: "info"
+      %li
+        = link_to "特定商取引に関する表記", "#", class: "info"
+    .footer-logo
+      = link_to items_path do
+        = image_tag "logo/logo-white.png", class: "logo"
+      %p ©︎FURIMA
