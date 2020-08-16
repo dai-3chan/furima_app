@@ -68,7 +68,7 @@ describe Item do
       item = build(:item)
       item.images.clear
       item.valid?
-      expect(item.errors[:image_ids]).to include("can't be blank")
+      expect(item.errors[:image_ids]).to include("is too long (maximum is 10 characters)")
     end
   end
 end

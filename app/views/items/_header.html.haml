@@ -2,7 +2,9 @@
   .PcHeader__Inner
     .TopContent
       %h1.Img
-        = image_tag "logo/logo.png", size: "140x40", class: "Image"
+        -# = image_tag "logo.png", size: "140x40", class: "Image"
+        = link_to items_path do
+          = image_tag asset_path("logo.png"), size: "140x40",class: "Image"
       %form.Search
         %input{name: "UTF8", type: "hidden", value: "✓"}
         %input.ItemForm{placeholder: "キーワードから探す", type: "text"}/
@@ -14,12 +16,14 @@
           = link_to "カテゴリー", "#", class: "header-link"
         .item_2
           = link_to "ブランド", "#", class: "header-link"
-      - if user_signed_in?
-        .after-sign
-          = link_to "ログアウト", destroy_user_session_path, class: "header-link", method: :delete
-      - else
-        .ListRight
+      .ListRight
+        - if user_signed_in?
+          .item_3
+            = link_to "ログアウト", destroy_user_session_path, class: "header-link", method: :delete
+          .item_4
+            = link_to "マイページ", user_path(current_user.id), class: "header-link"
+        - else
           .item_3
             = link_to "ログイン", new_user_session_path, class: "header-link"
           .item_4
-            = link_to "新規登録", new_user_registration_path, class: "header-link" 
+            = link_to "新規登録", new_user_registration_path, class: "header-link"

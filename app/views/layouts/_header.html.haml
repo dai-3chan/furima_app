@@ -1,3 +1,4 @@
 .header
   .header-logo
-    = link_to image_tag('/assets/logo.png', width: '185', alt: "サンプル画像"), "#"
+    = link_to items_path do
+      = image_tag asset_path('logo.png'), width: '185', alt: "サンプル画像"

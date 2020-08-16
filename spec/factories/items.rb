@@ -10,7 +10,7 @@ FactoryBot.define do
     seller_region_id              {"1"}
     preparation_for_shipment_id   {"1"}
     after(:build) do |item|
-      item.images << build_list(:image, 5)
+      item.images << build_list(:image, 11)
     end
   end
 end

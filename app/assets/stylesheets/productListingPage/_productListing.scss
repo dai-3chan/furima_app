@@ -27,7 +27,7 @@
       height: 300px;
 // --------出品画像欄--------------------------------------------
       &__picture{
-        height: 280px;
+        height: 310px;
         @include layout;
         &__text{
           &__step{
@@ -46,12 +46,22 @@
           }
         }
         #image-box{
+          width: 636px;
           display: flex;
-          flex-wrap: nowrap;
           background-color: rgb(245, 245, 245);
           justify-content: center;
           border: 2px dotted rgb(206, 206, 206);
-          
+          #previews{
+            display: flex;
+            flex-wrap: wrap;
+            .Preview__wrapper{
+              &__btn{
+                display: flex;
+                justify-content: space-around;
+                font-size: 12px;
+              }
+            }
+          }
         }
         #iconArea-js{
         }
@@ -126,7 +136,8 @@
       }
 // -----------商品詳細欄--------------------------------------
       &__itemDetail{
-        height: 420px;
+        height: 400px;
+        height: auto;
         @include layout;
         &__categoryArea{
           &__step{
@@ -335,6 +346,15 @@
           margin: 0 auto 20px auto;
           border: none;
         }
+        &__update{
+          background-color: blue;
+          font-weight: bold;
+          color: white;
+          height: 50px;
+          width: 50%;
+          margin: 0 auto 20px auto;
+          border: none;
+        }
         &__save{
           background-color: rgb(177, 177, 177);
           font-weight: bold;
@@ -383,5 +403,52 @@
         }
       }
     }
+  }
+}
+
+
+.listing-form-box{
+  background-color: white;
+  height: 100px;
+  height: auto;
+}
+
+.listing-default__label{
+
+}
+
+.listing-product-detail{
+  &__category{
+  font-weight: bold;
+  margin-top: 10px;
+  height: 100px;
+  height: auto;
+  }
+  &__title{
+    display: flex;
+    margin-top: 20px;
+  }
+}
+
+.listing-default--require{
+  background-color: red;
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  height: 20px;
+  width: 30px;
+  text-align: center;
+  margin-left: 10px;
+}
+.listing-select-wrapper{
+  margin-bottom: 10px;
+  &__box--select{
+  font-weight: normal;
+  height: 50px;
+  width: calc(100% - 20px);
+  display: inline-block;
+  border: 1px solid #cecece;
+  margin: 10px 0;
+  padding-left: 10px;
   }
 }

@@ -1,0 +1,26 @@
+.header
+  = render "items/header"
+.main
+  .mainContent
+    .creditCard__content
+      登録クレジットカード情報
+      .creditCard__cardNumbers
+        番号
+        .cardNumber
+          %br
+          = "**** **** **** " + @default_card_information.last4
+          %br
+      .creditCard__expDate
+        利用期限
+        .expDate
+          - exp_month = @default_card_information.exp_month.to_s
+          - exp_year = @default_card_information.exp_year.to_s.slice(2,3)
+          = exp_month + " / " + exp_year
+      .creditCard__deleteButton
+        .deleteButton
+          = form_tag(delete_credit_cards_path, method: :post, id: 'charge-form',  name: "inputForm") do
+            %input{ type: "hidden", name: "card_id", value: "" }
+            %button 削除する
+
+.footer
+  = render "layouts/footer"

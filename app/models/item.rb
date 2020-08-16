@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   has_many :images, dependent: :destroy
   belongs_to :user, optional: true
   belongs_to :brand, optional: true
-  belongs_to_active_hash :category, optional: true
+  belongs_to :category
   belongs_to_active_hash :delivery_cost
   belongs_to_active_hash :item_condition
   belongs_to_active_hash :seller_region
@@ -12,6 +12,7 @@ class Item < ApplicationRecord
   belongs_to :buyer, class_name: "User", foreign_key: "buyer_id", optional: true
 
   accepts_nested_attributes_for :images, allow_destroy: true
+  accepts_nested_attributes_for :brand
   
   with_options presence: true do 
     validates :name, length: { maximum: 40 }
@@ -24,4 +25,5 @@ class Item < ApplicationRecord
     validates :preparation_for_shipment_id
     validates :image_ids, length: {maximum: 10}
   end
+
 end

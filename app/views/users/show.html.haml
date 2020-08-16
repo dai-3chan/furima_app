@@ -1,5 +1,5 @@
 .header
-  -# renderで追加
+  = render "items/header"
 .wrapper
   .main
     .side-lists
@@ -10,17 +10,17 @@
         %li.list
           = link_to "お知らせ", "#", class: "list__link"
         %li.list
-          = link_to "出品する", "#", class: "list__link"
+          = link_to "出品する", new_item_path, class: "list__link"
         %li.list
-          = link_to "出品した商品 - 出品中", "#", class: "list__link"
+          = link_to "出品した商品",  selling_users_path, class: "list__link"
         %li.list
           = link_to "出品した商品 - 取引中", "#", class: "list__link"
         %li.list
-          = link_to "出品した商品 - 売却済み", "#", class: "list__link"
+          = link_to "出品した商品 - 売却済み", sold_users_path, class: "list__link"
         %li.list
           = link_to "購入した商品 - 取引中", "#", class: "list__link"
         %li.list
-          = link_to "購入した商品 - 過去の取引", "#", class: "list__link"
+          = link_to "購入した商品 - 過去の取引", purchased_users_path, class: "list__link"
         %li.list
           = link_to "ガイド", "#", class: "list__link"
         %li.list
@@ -33,7 +33,7 @@
         %li.list
           = link_to "発送元・お届け先住所変更", "#", class: "list__link"
         %li.list
-          = link_to "クレジットカード登録/変更", "#", class: "list__link"
+          = link_to "クレジットカード登録/変更", new_credit_card_path, class: "list__link"
         %li.list
           = link_to "メール/パスワード", "#", class: "list__link"
         %li.list
@@ -41,7 +41,7 @@
         %li.list
           = link_to "電話番号の確認", "#", class: "list__link"
         %li.list
-          = link_to "ログアウト", "#", class: "list__link"
+          = link_to "ログアウト", destroy_user_session_path, class: "header-link", method: :delete
 
     .main-contents
       .main-contents__user-info
@@ -49,7 +49,7 @@
           = link_to "#", class: "icon" do
             =icon('fas', 'user')
         .user-name
-          aaaa
+          = current_user.nickname
       .main-contents__content
         %h1 お知らせ
         %ul
